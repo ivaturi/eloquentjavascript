@@ -60,8 +60,9 @@ var param3 = function(){
 param3(); // <--- changed to "local value"
 console.log(test_param3);
 
-
+//---------------------------------------------------//
 /***** Nested Scope (functions within functions) *****/
+//---------------------------------------------------//
 
 // Functions can be created inside functions...just like variables.
 var car_drive = function(){
@@ -102,3 +103,9 @@ var car = vehicle(4);
 console.log("A car has " + car() + " passengers");
 var bike = vehicle(2);
 console.log("A bike has " + bike() + " passengers");
+
+// Recursion is pretty cool
+function power(base, exponent){
+  return exponent == 0 ? 1 : base * power(base, exponent - 1);
+  }
+console.log(power(4,4));
