@@ -48,3 +48,45 @@ function rangeStep(begin, end, step){
 
 //test
 console.log(rangeStep(12, -3,-3));
+
+/*
+  Exercise #2
+  -----------
+  Reversing an array
+
+  Arrays have a method reverse, which changes the array by inverting the order
+  in which its elements appear. For this exercise, write two functions,
+  reverseArray and reverseArrayInPlace.
+
+  The first, reverseArray, takes an array as argument and produces a new array
+  that has the same elements in the inverse order.
+
+  The second, reverseArrayInPlace, does what the reverse method does: it
+  modifies the array given as argument in order to reverse its elements.
+
+  Neither may use the standard reverse method.
+*/
+
+// reverse an array
+function reverseArray(inArray){
+  var outArray = []; //initialize empty array
+  for(var i = inArray.length - 1; i >= 0; i -= 1){
+    outArray.push(inArray[i]);
+  }
+  return outArray;
+}
+//test
+console.log(reverseArray(["A","B","C","D"]));
+
+// reverse an array in-place
+function reverseArrayInPlace(inArray){
+  for(var i = 0; i <= Math.floor(inArray.length/2); i++){
+      var j = (inArray.length - 1) - i;
+      var temp = inArray[j];
+      inArray[j] = inArray[i];
+      inArray[i] = temp;
+  }
+}
+var arrayValue = [1, 2, 3, 4, 5];
+reverseArrayInPlace(arrayValue);
+console.log(arrayValue);
