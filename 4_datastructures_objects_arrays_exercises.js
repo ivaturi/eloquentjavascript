@@ -90,3 +90,99 @@ function reverseArrayInPlace(inArray){
 var arrayValue = [1, 2, 3, 4, 5];
 reverseArrayInPlace(arrayValue);
 console.log(arrayValue);
+
+
+/*
+  Exercise #3
+  -----------
+
+  Objects, as generic blobs of values, can be used to build all sorts of data
+  structures. A common data structure is the list (not to be confused with the
+  array). A list is a nested set of objects, with the first object holding a
+  reference to the second, the second to the third, and so on.
+
+    var list = {
+      value: 1,
+      rest: {
+        value: 2,
+        rest: {
+          value: 3,
+          rest: null
+        }
+      }
+    };
+
+  The resulting objects form a chain.
+
+  A nice thing about lists is that they can share parts of their structure.
+  For example, if I create two new values
+    {value: 0, rest: list} and {value: -1, rest: list}
+  (with list referring to the variable defined earlier), they are both
+  independent lists, but they share the structure that makes up their last
+  three elements. In addition, the original list is also still a valid
+  three-element list.
+
+  Write a function arrayToList that builds up a data structure like the
+  previous one when given [1, 2, 3] as argument, and write a listToArray
+  function that produces an array from a list.
+
+  Also write the helper functions prepend, which takes an element and a list
+  and creates a new list that adds the element to the front of the input list,
+  and nth, which takes a list and a number and returns the element at the
+  given position in the list, or undefined when there is no such element.
+
+  If you haven’t already, also write a recursive version of nth.
+*/
+
+//convert an array to a list, iterative
+function arrayToList(inArray){
+  var list = null;
+  for(var i = inArray.length -1 ; i >= 0; i--){
+    list = {value : inArray[i], rest: list};
+  }
+  return list;
+}
+
+//convert an array to a list, recursive (without destroying the array)
+function arrayToListRecursive(inArray){
+  if(inArray.length < 1)
+    return null
+  else
+    return {value : inArray[0], rest : arrayToListRecursive(inArray.splice(1,inArray.length - 1))};
+
+    // This destroys the array...
+    //return {value : inArray[0], rest : arrayToListRecursive(inArray.splice(1,inArray.length - 1))};
+}
+//test
+console.log(arrayToList([10,20]))
+console.log(arrayToListRecursive([1,2]));
+
+
+//prepend an element to a list
+function prepend(element, list){
+  return {value:element,rest:list};
+}
+//test
+console.log(prepend(10,prepend(20,null)));
+
+//return the nth item in a list
+function nth(list, n){
+  var item = undefined;
+  for(var node = list, counter = 0; node; node = node.rest, counter++){
+    if(counter==n-1){
+      item = node.value;
+    }
+  }
+  return item;
+}
+
+//return the nth item in a list, recursive
+function nthRecursive(list,n){
+      return n==1 ? list.value : nthRecursive(list.rest,n-1);
+}
+//Test
+console.log(nth(arrayToListRecursive([10,20,30]),2));
+
+var arr = [10,20,30,40,50,60,70,80,90];
+var list = arrayToListRecursive(arr);
+console.log(nthRecursive(list,6));
