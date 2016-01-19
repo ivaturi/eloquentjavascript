@@ -186,3 +186,47 @@ console.log(nth(arrayToListRecursive([10,20,30]),2));
 var arr = [10,20,30,40,50,60,70,80,90];
 var list = arrayToListRecursive(arr);
 console.log(nthRecursive(list,6));
+
+
+//deep object equality
+function deepEqual(a, b) {
+
+  //check that each input is a non-null object
+  if( (typeof a == "object" && a != null) && (typeof b == "object" && b != null)){
+    //comparison here
+
+    //does each object have the same number of keys?
+    if(Object.keys(a).length != Object.keys(b).length){
+      return false;
+    }
+
+    //check each property
+    for(var property in a){
+      if(b.hasOwnProperty(property)){
+        //yes, same property. now go one level deeper
+        if( !(deepEqual(a[property],b[property])) ){
+          return false;
+        }
+      }
+      else{
+        return false;
+      }
+    }
+    return true;
+  }
+  else if(a !== b){
+    return false;
+  }
+  else{
+    return true;
+  }
+}
+
+//test
+var obj = {here:{is:"an"},object:2};
+console.log(deepEqual(1,"string")); // false
+console.log(deepEqual(null,{test:"object"})); //false
+console.log(deepEqual(null,null)); // true
+console.log(deepEqual(obj,obj)); // → true
+console.log(deepEqual(obj,{here:1,object:2})); // → false
+console.log(deepEqual(obj,{here:{is:"an"},object:2})); // → true
