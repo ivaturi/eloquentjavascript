@@ -190,16 +190,12 @@ console.log(nthRecursive(list,6));
 
 //deep object equality
 function deepEqual(a, b) {
-
   //check that each input is a non-null object
   if( (typeof a == "object" && a != null) && (typeof b == "object" && b != null)){
-    //comparison here
-
     //does each object have the same number of keys?
     if(Object.keys(a).length != Object.keys(b).length){
       return false;
     }
-
     //check each property
     for(var property in a){
       if(b.hasOwnProperty(property)){
