@@ -1,39 +1,9 @@
 /*
-  Javascript Object Notation (JSON)
-  --------------------------------
+  Filtering arrays
+  ---------------
+  Arrays provide a *filter* method that can be used to call other functions to filter elements of arrays.
 
-  This is widely used as a data storage and communication format.
-
-  The structure is similar to the construction of arrays and objects in JS.
-
-  Basic restrictions:
-    All property names should be encased in double quotes
-    No function calls
-    No variables
-    No computation
-    No comments
-
-    JSON.stringify and JSON.parse can be used to work with JSON arrays.
-
-    Example:
-
-    {
-        "colorsArray":[{
-                "red":"#f00",
-                "green":"#0f0",
-                "blue":"#00f",
-                "cyan":"#0ff",
-                "magenta":"#f0f",
-                "yellow":"#ff0",
-                "black":"#000"
-            }
-        ]
-    }
 */
-
-//constructing JSON:
-var json_string = JSON.stringify({name:"myName", birth:"1721"});
-console.log(json_string);
 
 
 var ANCESTRY_FILE = "[\n  " + [
@@ -79,6 +49,9 @@ var ANCESTRY_FILE = "[\n  " + [
 ].join(",\n  ") + "\n]";
 
 
-//interpreting JSON
-var str = JSON.parse(ANCESTRY_FILE);
-console.log(str.length);
+//search for people born between 1800 and 1850
+var ancestry = JSON.parse(ANCESTRY_FILE);
+var filtered_array = ancestry.filter(function(person){
+  return (person.born > 1800 && person.born < 1850);
+})
+console.log(filtered_array);

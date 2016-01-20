@@ -1,40 +1,3 @@
-/*
-  Javascript Object Notation (JSON)
-  --------------------------------
-
-  This is widely used as a data storage and communication format.
-
-  The structure is similar to the construction of arrays and objects in JS.
-
-  Basic restrictions:
-    All property names should be encased in double quotes
-    No function calls
-    No variables
-    No computation
-    No comments
-
-    JSON.stringify and JSON.parse can be used to work with JSON arrays.
-
-    Example:
-
-    {
-        "colorsArray":[{
-                "red":"#f00",
-                "green":"#0f0",
-                "blue":"#00f",
-                "cyan":"#0ff",
-                "magenta":"#f0f",
-                "yellow":"#ff0",
-                "black":"#000"
-            }
-        ]
-    }
-*/
-
-//constructing JSON:
-var json_string = JSON.stringify({name:"myName", birth:"1721"});
-console.log(json_string);
-
 
 var ANCESTRY_FILE = "[\n  " + [
   '{"name": "Carolus Haverbeke", "sex": "m", "born": 1832, "died": 1905, "father": "Carel Haverbeke", "mother": "Maria van Brussel"}',
@@ -77,8 +40,3 @@ var ANCESTRY_FILE = "[\n  " + [
   '{"name": "Maria Sturm", "sex": "f", "born": 1835, "died": 1917, "father": "Charles Sturm", "mother": "Seraphina Spelier"}',
   '{"name": "Jacobus Bernardus van Brussel", "sex": "m", "born": 1736, "died": 1809, "father": "Jan van Brussel", "mother": "Elisabeth Haverbeke"}'
 ].join(",\n  ") + "\n]";
-
-
-//interpreting JSON
-var str = JSON.parse(ANCESTRY_FILE);
-console.log(str.length);
