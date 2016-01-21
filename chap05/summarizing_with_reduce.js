@@ -1,8 +1,8 @@
 /*
-  Transforming arrays with *map*
-  -----------------------------
+  Summarizing with *reduce*
+  -------------------------
 
-  The *map* method applies a function to all array elements, and builds an arrat from the values that the applied function returns.
+  The *reduce* method can be used to summarize arrays.
 
 */
 
@@ -29,7 +29,7 @@ var ANCESTRY_FILE = "[\n  " + [
   '{"name": "Elisabeth Haverbeke", "sex": "f", "born": 1711, "died": 1754, "father": "Jan Haverbeke", "mother": "Maria de Rycke"}',
   '{"name": "Lievijne Jans", "sex": "f", "born": 1542, "died": 1582, "father":null, "mother":null}',
   '{"name": "Bernardus de Causmaecker", "sex": "m", "born": 1721, "died": 1789, "father": "Lieven de Causmaecker", "mother": "Livina Haverbeke"}',
-  '{"name": "Jacoba Lammens", "sex": "f", "born": 1699, "died": 1740, "father": "Lieven Lammens", "mother": "Livina de Vrieze"}',
+  '{"name": "Lammens", "sex": "f", "born": 1699, "died": 1740, "father": "Lieven Lammens", "mother": "Livina de Vrieze"}',
   '{"name": "Pieter de Decker", "sex": "m", "born": 1705, "died": 1780, "father": "Joos de Decker", "mother": "Petronella van de Steene"}',
   '{"name": "Joanna de Pape", "sex": "f", "born": 1654, "died": 1723, "father": "Vincent de Pape", "mother": "Petronella Wauters"}',
   '{"name": "Daniel Haverbeke", "sex": "m", "born": 1652, "died": 1723, "father": "Lieven Haverbeke", "mother": "Elisabeth Hercke"}',
@@ -49,11 +49,21 @@ var ANCESTRY_FILE = "[\n  " + [
 ].join(",\n  ") + "\n]";
 
 
-//search for people born between 1800 and 1850
 var ancestry = JSON.parse(ANCESTRY_FILE);
 
-var people = ancestry.filter(function(person){
-  return person.born > 1800 && person.born < 1850;
+//finding the person with the longest name
+var people = ancestry.reduce(function(max,cur){
+  return cur.name.length > max.name.length ? cur : max;
 });
 
-console.log(people.map(function(person){return person.name;}));
+console.log(people);
+
+
+//doing this without using higher-order functions:
+var max = ancestry[0];
+for(var i = 1; i < ancestry.length;i++){
+  if(ancestry[i].name.length > max.name.length){
+    max = ancestry[i];
+  }
+}
+console.log(max);

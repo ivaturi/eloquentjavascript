@@ -1,10 +1,10 @@
 /*
-  Transforming arrays with *map*
-  -----------------------------
+  Composing functions
+  ------------------
 
-  The *map* method applies a function to all array elements, and builds an arrat from the values that the applied function returns.
-
+  Higher order functions (abstraction) is particularly helpful when we want to compose functions
 */
+
 
 var ANCESTRY_FILE = "[\n  " + [
   '{"name": "Carolus Haverbeke", "sex": "m", "born": 1832, "died": 1905, "father": "Carel Haverbeke", "mother": "Maria van Brussel"}',
@@ -49,11 +49,26 @@ var ANCESTRY_FILE = "[\n  " + [
 ].join(",\n  ") + "\n]";
 
 
-//search for people born between 1800 and 1850
+//trying to find the average age by sex, in the ancestry object
 var ancestry = JSON.parse(ANCESTRY_FILE);
 
-var people = ancestry.filter(function(person){
-  return person.born > 1800 && person.born < 1850;
-});
 
-console.log(people.map(function(person){return person.name;}));
+//compute the average of an array
+function average(array){
+  function plus(a,b){
+    return a+b;
+  }
+  return array.reduce(plus)/array.length;
+}
+
+function age(person){return person.died  - person.born;}
+function male(person){return person.sex == "m";}
+function female(person){return person.sex == "f";}
+
+var males = ancestry.filter(male);
+var ages = males.map(age);
+console.log(average(ages));
+
+var females = ancestry.filter(female);
+ages = females.map(age);
+console.log(average(ages));
