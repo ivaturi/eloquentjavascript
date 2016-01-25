@@ -51,13 +51,6 @@ var ANCESTRY_FILE = "[\n  " + [
 
 var ancestry = JSON.parse(ANCESTRY_FILE);
 
-//finding the person with the longest name
-var people = ancestry.reduce(function(max,cur){
-  return cur.name.length > max.name.length ? cur : max;
-});
-
-console.log(people);
-
 
 //doing this without using higher-order functions:
 var max = ancestry[0];
@@ -66,4 +59,28 @@ for(var i = 1; i < ancestry.length;i++){
     max = ancestry[i];
   }
 }
-console.log(max);
+console.log("Longest name (iterative) is",max.name);
+
+
+//finding the most ancient ancestor, without using higher order functions:
+var oldest = ancestry[0];
+for(var i = 1; i < ancestry.length; i++){
+  if(ancestry[i].born < oldest.born){
+    oldest = ancestry[i];
+  }
+}
+console.log("Most ancient (iterative) is",oldest.name);
+
+
+//finding the person with the longest name
+var longest = ancestry.reduce(function(max,cur){
+  return cur.name.length > max.name.length ? cur : max;
+});
+
+console.log("Longest name (higher order) is",longest.name);
+
+//finding the most ancient ancestor, using higher order functions:
+var ancient = ancestry.reduce(function(oldest,curr){
+  return curr.born < oldest.born ? curr : oldest;
+})
+console.log("Most ancient (higher order) is",ancient.name);
