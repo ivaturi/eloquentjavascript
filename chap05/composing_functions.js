@@ -67,8 +67,67 @@ function female(person){return person.sex == "f";}
 
 var males = ancestry.filter(male);
 var ages = males.map(age);
-console.log(average(ages));
+console.log("The average age of males in the tree is", average(ages).toFixed(2));
 
 var females = ancestry.filter(female);
 ages = females.map(age);
-console.log(average(ages));
+console.log("The average age of females in the tree is",average(ages).toFixed(2));
+
+//--------------------------
+
+/*
+  Trying to answer the question, "How much DNA does one member share with another?"
+*/
+
+// Build an associative array that maps each person's name to an object containing that person's properties
+var byName = {};
+ancestry.forEach(function(person){
+  byName[person.name] = person;
+});
+//Get the object corresponding to the most ancient person
+var ancient = ancestry.reduce(function(curr,oldest){
+  return curr.born < oldest.born ? curr : oldest;
+})
+console.log("The most ancient person is",ancient.name);
+
+
+/*
+ Now, given a person, and a default value...we try and condense the array into
+ a singular value, using a function to combine the values for that persons's
+ mother and father...
+
+ The default value applies to a person with no recorded parents (oldest ancestor).
+ The func is a reference to another function that tells us how to combine the values
+ for the mother and the father
+ The person is the person for which the set of ancestors is being reduced
+ */
+ function reduceAncestors(person, func, default_value){
+   //inner function, that can be called recursively
+   //in order to traverse the ancestry tree upwards
+   function computeValueFor(person){
+     if(person == null){
+       return default_value;
+     }
+     else{
+       //make a recursive call to compute ancestral values...
+       return func(person, computeValueFor(byName[person.mother]), computeValueFor(byName[person.father]));
+     }
+   }
+   return computeValueFor(person);
+ };
+
+ // We need a function that tells us how to combine the values of the mother
+ // and the father, for the previous function...
+
+ function computeSharedDNA(person, mother, father){
+   //if this is the most ancient person
+   if(person.name == ancient.name){
+     return 1;
+   }
+   else{
+     return 0.5*(mother + father);
+   }
+ }
+
+ var person_of_interest = byName["Philibert Haverbeke"];
+ console.log(reduceAncestors(person_of_interest,computeSharedDNA,0));
