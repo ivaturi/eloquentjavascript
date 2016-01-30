@@ -57,12 +57,20 @@ ancestry.forEach(function(person){
 })
 
 
-//construct the average of an array
+// Helper function to calculate the average of a numeric array
+// We expect this function to be passed an array that contains the ages of
+// each identified mother
 function average(in_array){
+  //define a *plus* function, since the reduce method does not accept operators (+)
   function plus(x,y){return x+y;}
+  //reduce to average using pairwise sums
   return in_array.reduce(plus)/in_array.length;
 }
 
+// For a given person (an object from the ancestry file),
+// their mother is considered known is both of these conditions are satisfied:
+//  1. The reference to a mother in the person object is non-null
+//  2. The mother is referenced by name in the by_name array
 function hasKnownMother(person){
   if(person.mother != null && by_name[person.mother]){
     return true;
@@ -70,11 +78,23 @@ function hasKnownMother(person){
   return false;
 }
 
+// For a given person, compute the age of the mother at the time the person
+// was born, using the formula:
+//  age = (year of birth of the son) - (year of birth of the mother)
 function getMotherAge(person){
   return person.born - by_name[person.mother].born;
 }
 
-// METHOD 1
+/*
+    Method 1:
+
+    Compute the average age of mothers at childbirth, in the following sequence:
+
+    1- filter the ancestry object based on known mothers
+    2- for each person with a known mother, add the relevant age to an array
+    3- compute the average age from the array in step 2
+*/
+
 var has_known_mother = ancestry.filter(hasKnownMother);
 var ages = [];
 has_known_mother.forEach(function(person){
@@ -82,9 +102,16 @@ has_known_mother.forEach(function(person){
 })
 console.log(average(ages));
 
+/*
+  Method 2:
 
-// METHOD 2 - using map
+  Compute the average age of mothers at childbirthm in the following sequence:
+
+  1- use the map method to return either the age of the mother or null, based on the condition that the person's mother is known
+  2- filter the non-null ages, and compute the average age of the filtered array
+*/
 var people = ancestry.map(function(person){
   return hasKnownMother(person) ? getMotherAge(person) : null;
 });
-console.log(average(people.filter(function(person){return person != null;})))
+var filtered_people = people.filter(function(age){return age != null;});
+console.log(average(filtered_people));
