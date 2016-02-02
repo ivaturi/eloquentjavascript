@@ -43,3 +43,9 @@ log("custodian" in myBook); //<<< false
 
 // However, we can still access this property
 console.log(myBook.custodian);
+
+
+// We can also create objects that are devoid of any prototype, using Object.create
+var no_proto = Object.create(null);
+
+log("toString" in no_proto); // << false, because this object has no prototype
