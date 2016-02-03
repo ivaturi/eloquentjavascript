@@ -4,6 +4,8 @@
 
   To create objects from a shared prototype, we can use a *constructor*.
   When instances are created from a constructor, each instance will have its own reference to the *this* variable
+
+  more information : http://stackoverflow.com/a/16063711
 */
 
 //a basic car constructor, with a an input for color
